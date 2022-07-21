@@ -5,6 +5,7 @@ import { UserContext } from "../context/userContext";
 export const Connexion = () => {
 
     const { signIn } = useContext(UserContext);
+    const { signInWithGoogle } = useContext(UserContext);
     
     const navigate = useNavigate();
 
@@ -61,7 +62,7 @@ export const Connexion = () => {
                     <i className="fab fa-facebook-f"></i>
                     </button>
 
-                    <button type="button" className="btn btn-link btn-floating mx-1">
+                    <button onClick={signInWithGoogle} type="button" className="btn btn-link btn-floating mx-1">
                     <i className="fab fa-google"></i>
                     </button>
 

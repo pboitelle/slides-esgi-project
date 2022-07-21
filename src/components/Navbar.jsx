@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { auth } from '../../database/firebase'
 import { UserContext } from '../context/userContext'
 
+import '../../public/css/app.css'
+
 
 const UserGreeting = () => {
 
@@ -14,6 +16,7 @@ const UserGreeting = () => {
     try {
 
       await signOut(auth)
+      localStorage.clear();
       navigate("/")     
       
     } catch (error) {
