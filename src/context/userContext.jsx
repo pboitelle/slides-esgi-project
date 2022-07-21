@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword,
  createUserWithEmailAndPassword,
 onAuthStateChanged,
 signInWithPopup} from "firebase/auth";
-import { auth, providerGoogle } from "../../database/firebase";
+import { auth, providerFacebook, providerGoogle } from "../../database/firebase";
 
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +20,26 @@ export const UserContextProvider = (props) => {
     const signInWithGoogle = () => {
 
         signInWithPopup(auth, providerGoogle).then((result) => {
+      
+          const emailUserGoogle = result.user.email
+          const nameUserGoogle = result.user.displayName
+          const imgUserGoogle = result.user.photoURL
+      
+          localStorage.setItem("emailUserGoogle", emailUserGoogle)
+          localStorage.setItem("nameUserGoogle", nameUserGoogle)
+          localStorage.setItem("imgUserGoogle", imgUserGoogle)
+
+          navigate("/account/home");
+      
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    const signInWithFacebook = () => {
+
+        signInWithPopup(auth, providerFacebook).then((result) => {
 
         console.log(result);
       
@@ -54,7 +74,7 @@ export const UserContextProvider = (props) => {
     }, [])
 
     return (
-        <UserContext.Provider value={{signUp, signIn, signInWithGoogle, currentUser}}>
+        <UserContext.Provider value={{signUp, signIn, signInWithGoogle, signInWithFacebook, currentUser}}>
             {!loadingData && props.children}
         </UserContext.Provider>
     )
