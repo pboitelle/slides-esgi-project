@@ -41,8 +41,6 @@ export const UserContextProvider = (props) => {
 
         signInWithPopup(auth, providerFacebook).then((result) => {
 
-        console.log(result);
-      
           const emailUserGoogle = result.user.email
           const nameUserGoogle = result.user.displayName
           const imgUserGoogle = result.user.photoURL
