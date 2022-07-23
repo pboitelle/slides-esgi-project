@@ -9,6 +9,22 @@
     "vite": "2.9.13"
   },
   "scripts": {
-    "dev": "vite"
-  }
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "name": "slides-esgi-project",
+  "description": "- Docker\r - Docker Compose\r - GNU/Make (optional)\r - Node (optional)\r - NPM (optional)",
+  "version": "1.0.0",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pboitelle/slides-esgi-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pboitelle/slides-esgi-project/issues"
+  },
+  "homepage": "https://github.com/pboitelle/slides-esgi-project#readme"
 }
