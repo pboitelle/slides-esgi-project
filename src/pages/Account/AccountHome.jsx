@@ -55,9 +55,9 @@ export const AccountHome = () => {
 
     return (
         <>
-            <div className="container p-5">
+            <div className="">
 
-                <h1 className="display-3 text-light mb-4">
+                <h1 className="display-3 text-light mb-4 p-t-50">
                     Bienvenue {localStorage.getItem("nameUserGoogle")} !
                 </h1>
                 
@@ -66,13 +66,17 @@ export const AccountHome = () => {
                 <input type="text" onChange={handleOnChange} value={name} />
                 <button onClick={createPresentation}>Add</button>
                 <br /><br />
-                {presentations.map((pres) => (
-                    <div key={pres.uuid}>
-                        <h2 className="display-5 text-light">{pres.name}</h2>
-                        <button>update</button>
-                        <button onClick={() => handleDeletePresentation(pres)}>delete</button>
-                    </div>
-                ))}
+                <div >
+                    {presentations.map((pres) => (
+                        <div key={pres.uuid} class="d-flex p-2">
+                            <div class="p-2 border boder-white w-100 mx-2">
+                                <h2 class="display-5 text-light text-center">{pres.name}</h2>
+                            </div>
+                            <button class="bg-dark mx-2 px-2"><i class="fa-solid fa-file-pen text-white"></i></button>
+                            <button onClick={() => handleDeletePresentation(pres)} class="bg-dark mx-2 px-2"><i class="fa-solid fa-trash text-white"></i></button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </>
     )
