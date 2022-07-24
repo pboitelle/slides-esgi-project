@@ -69,8 +69,9 @@ export const AccountHome = () => {
                 <div >
                     {presentations.map((pres) => (
                         <div key={pres.uuid} class="d-flex p-2">
-                            <div class="p-2 border boder-white w-100 mx-2">
-                                <h2 class="display-5 text-light text-center">{pres.name}</h2>
+                            <div class="p-2 border boder-white w-100 mx-2 d-flex align-items-center">
+                                <i class="fa-solid fa-file-lines text-white"></i>
+                                <h2 class="display-5 text-light text-center m-auto">{pres.name}</h2>
                             </div>
                             <button class="bg-dark mx-2 px-2"><i class="fa-solid fa-file-pen text-white"></i></button>
                             <button onClick={() => handleDeletePresentation(pres)} class="bg-dark mx-2 px-2"><i class="fa-solid fa-trash text-white"></i></button>
