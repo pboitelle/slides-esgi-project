@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from 'react'
 import { db } from '../../../database/firebase'
 import { set, ref, onValue, remove } from "firebase/database"
 import { UserContext } from '../../context/userContext'
+import { Link } from 'react-router-dom'
 import { uid } from 'uid'
 
 export const AccountHome = () => {
@@ -52,6 +53,7 @@ export const AccountHome = () => {
     const handleDeletePresentation = (presentation) => {
         remove(ref(db, `/users/${currentUser.uid}/${presentation.uuid}`))
     }
+    
 
     return (
         <>
@@ -69,7 +71,7 @@ export const AccountHome = () => {
                 {presentations.map((pres) => (
                     <div key={pres.uuid}>
                         <h2 className="display-5 text-light">{pres.name}</h2>
-                        <button>update</button>
+                        <Link to={`/account/${pres.uuid}`} className="btn btn-primary ms-2">go</Link>
                         <button onClick={() => handleDeletePresentation(pres)}>delete</button>
                     </div>
                 ))}
