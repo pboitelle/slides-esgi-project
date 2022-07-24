@@ -17,7 +17,7 @@ export const AccountHome = () => {
 
     //read
     useEffect(() => {
-        onValue(ref(db), (snapshot) => {
+        onValue(ref(db, `/users/${currentUser.uid}/`), (snapshot) => {
             setPresentations([])
             const data = snapshot.val()
             if(data !== null){
@@ -35,10 +35,9 @@ export const AccountHome = () => {
 
         const uuid = uid()
         
-        set(ref(db, `/${uuid}`), {
+        set(ref(db, `/users/${uidUser}/${uuid}`), {
             name,
-            uidUser,
-            uuid
+            uuid,
         }).then(() => {
             // data saved
         }).catch((error) => {
@@ -51,7 +50,7 @@ export const AccountHome = () => {
 
     //delete
     const handleDeletePresentation = (presentation) => {
-        remove(ref(db, `/${presentation.uuid}`))
+        remove(ref(db, `/users/${currentUser.uid}/${presentation.uuid}`))
     }
 
     return (
@@ -68,11 +67,11 @@ export const AccountHome = () => {
                 <button onClick={createPresentation}>Add</button>
                 <br /><br />
                 {presentations.map((pres) => (
-                    <>
+                    <div key={pres.uuid}>
                         <h2 className="display-5 text-light">{pres.name}</h2>
                         <button>update</button>
                         <button onClick={() => handleDeletePresentation(pres)}>delete</button>
-                    </>
+                    </div>
                 ))}
             </div>
         </>
