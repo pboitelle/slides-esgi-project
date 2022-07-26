@@ -3,10 +3,26 @@ import { db } from '../../../database/firebase'
 import { ref, onValue, update, push, child } from "firebase/database"
 import { Link, useParams } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
+import { TrixEditor } from "react-trix";
+import "trix/dist/trix";
+import "trix/dist/trix.css";
 
 import '../../../public/css/app.css'
+import '../../../public/css/trix.css'
 
 export const AccountPresentation= () => {
+
+    const handleEditorReady = editor => {
+        // this is a reference back to the editor if you want to
+        // do editing programatically
+        // editor.insertString("editor is ready");
+      };
+      
+      const handleChange = (html, text) => {
+        console.log({ html, text });
+        // html is the new html content
+        // text is the new text content
+      };
 
     //id présentation
     let { uuuid } = useParams();
@@ -33,6 +49,22 @@ export const AccountPresentation= () => {
             }
         })
     }, [])
+    let mergeTags = [
+        {
+          trigger: "@",
+          tags: [
+            { name: "Dominic St-Pierre", tag: "@dominic" },
+            { name: "John Doe", tag: "@john" }
+          ]
+        },
+        {
+          trigger: "{",
+          tags: [
+            { name: "First name", tag: "{{ .FirstName }}" },
+            { name: "Last name", tag: "{{ .LastName }}" }
+          ]
+        }
+      ];
 
     console.log(validation)
 
@@ -74,15 +106,22 @@ export const AccountPresentation= () => {
                         </button>
                     </div>
                 </nav>
+                
+
 
                 {Object.keys(lapresentation[1]).map((key, slide) => (
-                    <div className="card" key={lapresentation[1][key].id_slide}>
-                        <img className="card-img-top" src={lapresentation[1][key].img} alt={lapresentation[1][key].title}></img>
-                        <div className="card-body">
-                            <h5 className="card-title">{lapresentation[1][key].title}</h5>
-                            <p className="card-text"></p>
-                        </div>
+                    <>
+                    <div className='bg-light m-b-25 m-t-5 rounded'>
+
+                            <TrixEditor key={lapresentation[1][key].id_slide} id="trixEditor" className='bg-light card'
+                                placeholder="editor's placeholder" value={`
+                                
+                                `.replace(/(\r\n|\n|\r)/gm, "")}
+                                onChange={handleChange}
+                                onEditorReady={handleEditorReady}
+                            />
                     </div>
+                    </>
                 ))}
             </>
         )
