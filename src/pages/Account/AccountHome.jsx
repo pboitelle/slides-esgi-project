@@ -1,7 +1,8 @@
 import React, {useState, useContext, useEffect} from 'react'
 import { db } from '../../../database/firebase'
-import { set, ref, onValue, remove } from "firebase/database"
+import { set, ref, onValue, remove, update, push, child } from "firebase/database"
 import { UserContext } from '../../context/userContext'
+import { Link } from 'react-router-dom'
 import { uid } from 'uid'
 
 export const AccountHome = () => {
@@ -37,7 +38,7 @@ export const AccountHome = () => {
         
         set(ref(db, `/users/${uidUser}/${uuid}`), {
             name,
-            uuid,
+            uuid
         }).then(() => {
             // data saved
         }).catch((error) => {
@@ -46,12 +47,25 @@ export const AccountHome = () => {
 
         setName('');
 
+        const id_slide = push(child(ref(db), `/users/${uidUser}/${uuid}`)).key;
+        
+        update(ref(db, `/users/${uidUser}/${uuid}/slides/${id_slide}`), {
+            img : "",
+            id_slide: id_slide,
+            title: "Présentation sans titre"
+        }).then(() => {
+            // data saved
+        }).catch((error) => {
+            console.log(error)
+        })
+
     }
 
     //delete
     const handleDeletePresentation = (presentation) => {
         remove(ref(db, `/users/${currentUser.uid}/${presentation.uuid}`))
     }
+    
 
     return (
         <>
@@ -68,13 +82,16 @@ export const AccountHome = () => {
                 <br /><br />
                 <div >
                     {presentations.map((pres) => (
-                        <div key={pres.uuid} class="d-flex p-2">
-                            <div class="p-2 border boder-white w-100 mx-2 d-flex align-items-center">
-                                <i class="fa-solid fa-file-lines text-white"></i>
-                                <h2 class="display-5 text-light text-center m-auto">{pres.name}</h2>
+                        <div key={pres.uuid} className="d-flex p-2">
+                            <div className="p-2 border boder-white w-100 mx-2 d-flex align-items-center">
+                                <i className="fa-solid fa-file-lines text-white"></i>
+                                <h2 className="display-5 text-light text-center m-auto">{pres.name}</h2>
+
+                                <Link to={`/account/${pres.uuid}`} className="btn btn-primary mx-2 px-2"><i className="fa-solid fa-file-pen text-white"></i></Link>
+                                
+                                <button onClick={() => handleDeletePresentation(pres)} className="btn btn-danger mx-2 px-2"><i className="fa-solid fa-trash text-white"></i></button>
                             </div>
-                            <button class="bg-dark mx-2 px-2"><i class="fa-solid fa-file-pen text-white"></i></button>
-                            <button onClick={() => handleDeletePresentation(pres)} class="bg-dark mx-2 px-2"><i class="fa-solid fa-trash text-white"></i></button>
+                            
                         </div>
                     ))}
                 </div>

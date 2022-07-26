@@ -2,9 +2,16 @@
     width: 40px;
 	border-radius: 50% 50% 50% 50%;
 }
-.bg-dark {
-    background-color: #212529;
+
+.card{
+    height: 250px;
 }
-.p-t-50 {
-    padding-top: 50px;
+
+.navbarPres{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
 }
