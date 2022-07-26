@@ -50,9 +50,8 @@ export const AccountHome = () => {
         const id_slide = push(child(ref(db), `/users/${uidUser}/${uuid}`)).key;
         
         update(ref(db, `/users/${uidUser}/${uuid}/slides/${id_slide}`), {
-            img : "",
             id_slide: id_slide,
-            title: "Présentation sans titre"
+            contenu: "<h1>Présentation sans titre</h1>"
         }).then(() => {
             // data saved
         }).catch((error) => {
@@ -87,7 +86,7 @@ export const AccountHome = () => {
                                 <i className="fa-solid fa-file-lines text-white"></i>
                                 <h2 className="display-5 text-light text-center m-auto">{pres.name}</h2>
 
-                                <Link to={`/account/${pres.uuid}`} className="btn btn-primary mx-2 px-2"><i className="fa-solid fa-file-pen text-white"></i></Link>
+                                <Link to={`/account/home/${pres.uuid}`} className="btn btn-primary mx-2 px-2"><i className="fa-solid fa-file-pen text-white"></i></Link>
                                 
                                 <button onClick={() => handleDeletePresentation(pres)} className="btn btn-danger mx-2 px-2"><i className="fa-solid fa-trash text-white"></i></button>
                             </div>
