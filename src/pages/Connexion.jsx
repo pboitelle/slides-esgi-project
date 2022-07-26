@@ -5,6 +5,8 @@ import { UserContext } from "../context/userContext";
 export const Connexion = () => {
 
     const { signIn } = useContext(UserContext);
+    const { signInWithGoogle } = useContext(UserContext);
+    const { signInWithFacebook } = useContext(UserContext);
     
     const navigate = useNavigate();
 
@@ -56,12 +58,14 @@ export const Connexion = () => {
                 <button type="submit" className="btn btn-primary btn-block mb-4">Se connecter</button>
 
                 <div className="text-center mb-3">
+
                     <p className="text-light">Connectez vous avec</p>
-                    <button type="button" className="btn btn-link btn-floating mx-1">
+
+                    <button onClick={signInWithFacebook} type="button" className="btn btn-link btn-floating mx-1">
                     <i className="fab fa-facebook-f"></i>
                     </button>
 
-                    <button type="button" className="btn btn-link btn-floating mx-1">
+                    <button onClick={signInWithGoogle} type="button" className="btn btn-link btn-floating mx-1">
                     <i className="fab fa-google"></i>
                     </button>
 
