@@ -5,6 +5,7 @@ import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth
 const firebaseConfig = {
   apiKey: "AIzaSyA49AFSguiX2-lWmgvySFWaYWFnMic_o7g",
   authDomain: "slides-app-86d02.firebaseapp.com",
+  databaseURL: "https://slides-app-86d02-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "slides-app-86d02",
   storageBucket: "slides-app-86d02.appspot.com",
   messagingSenderId: "812723778505",
