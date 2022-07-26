@@ -69,9 +69,9 @@ export const AccountHome = () => {
 
     return (
         <>
-            <div className="">
+            <div>
 
-                <h1 className="display-3 text-light mb-4 p-t-50">
+                <h1 className="display-3 text-light mb-4 m-t-50">
                     Bienvenue {localStorage.getItem("nameUserGoogle")} !
                 </h1>
                 

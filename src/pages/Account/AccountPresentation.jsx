@@ -66,7 +66,6 @@ export const AccountPresentation= () => {
         }
       ];
 
-    console.log(validation)
 
     //create slide
     const createSlide = () => {
