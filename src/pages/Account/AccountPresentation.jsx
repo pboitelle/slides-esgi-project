@@ -12,7 +12,7 @@ export const AccountPresentation= () => {
     let { uuuid } = useParams();
 
     const [lapresentation, setPresentation] = useState([])
-    const [ validation, setValidation ] = useState("");
+    const [validation, setValidation ] = useState("");
     const [loadingData, setLoadingData] = useState(true);
 
     const {currentUser} = useContext(UserContext)
@@ -34,6 +34,8 @@ export const AccountPresentation= () => {
         })
     }, [])
 
+    console.log(validation)
+
     //create slide
     const createSlide = () => {
 
@@ -41,9 +43,9 @@ export const AccountPresentation= () => {
         const id_slide = push(child(ref(db), `/users/${uidUser}/${uuuid}`)).key;
         
         update(ref(db, `/users/${uidUser}/${uuuid}/slides/${id_slide}`), {
-            img : "http://test2",
+            img : "",
             id_slide: id_slide,
-            title: "test2"
+            title: "Présentation sans titre"
         }).then(() => {
             // data saved
         }).catch((error) => {
@@ -51,8 +53,6 @@ export const AccountPresentation= () => {
         })
 
     }
-
-    console.log(lapresentation[1])
     
     if(!loadingData && !validation){
 
@@ -75,12 +75,12 @@ export const AccountPresentation= () => {
                     </div>
                 </nav>
 
-                {lapresentation[1].map((slide) => (
-                    <div className="card" key={slide.id_slide}>
-                        <img class="card-img-top" src={slide.img} alt={slide.title}></img>
+                {Object.keys(lapresentation[1]).map((key, slide) => (
+                    <div className="card" key={lapresentation[1][key].id_slide}>
+                        <img className="card-img-top" src={lapresentation[1][key].img} alt={lapresentation[1][key].title}></img>
                         <div className="card-body">
-                            <h5 className="card-title">{slide.title}</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <h5 className="card-title">{lapresentation[1][key].title}</h5>
+                            <p className="card-text"></p>
                         </div>
                     </div>
                 ))}

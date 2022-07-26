@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import { db } from '../../../database/firebase'
-import { set, ref, onValue, remove } from "firebase/database"
+import { set, ref, onValue, remove, update, push, child } from "firebase/database"
 import { UserContext } from '../../context/userContext'
 import { Link } from 'react-router-dom'
 import { uid } from 'uid'
@@ -38,7 +38,7 @@ export const AccountHome = () => {
         
         set(ref(db, `/users/${uidUser}/${uuid}`), {
             name,
-            uuid,
+            uuid
         }).then(() => {
             // data saved
         }).catch((error) => {
@@ -46,6 +46,18 @@ export const AccountHome = () => {
         })
 
         setName('');
+
+        const id_slide = push(child(ref(db), `/users/${uidUser}/${uuid}`)).key;
+        
+        update(ref(db, `/users/${uidUser}/${uuid}/slides/${id_slide}`), {
+            img : "",
+            id_slide: id_slide,
+            title: "Présentation sans titre"
+        }).then(() => {
+            // data saved
+        }).catch((error) => {
+            console.log(error)
+        })
 
     }
 
