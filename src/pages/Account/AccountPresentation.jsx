@@ -17,6 +17,7 @@ export const AccountPresentation= () => {
     const [lapresentation, setPresentation] = useState([])
     const [validation, setValidation ] = useState("");
     const [loadingData, setLoadingData] = useState(true);
+    const [lengthSlide, setLengthSlide] = useState(0);
 
     const {currentUser} = useContext(UserContext)
 
@@ -25,6 +26,7 @@ export const AccountPresentation= () => {
         onValue(ref(db, `/users/${currentUser.uid}/${uuuid}/`), (snapshot) => {
             setPresentation([])
             const data = snapshot.val()
+            setLengthSlide(Object.keys(data.slides).length)
             if(data !== null){
                 Object.values(data).map((pres) => {
                     setPresentation((oldArray) => [...oldArray, pres])
@@ -37,9 +39,12 @@ export const AccountPresentation= () => {
         })
     }, [])
 
+
     //delete slide
     const handleDeleteSlide = (slide) => {
-        remove(ref(db, `/users/${currentUser.uid}/${uuuid}/slides/${slide}`))
+        if(lengthSlide > 1){
+            remove(ref(db, `/users/${currentUser.uid}/${uuuid}/slides/${slide}`))
+        }
     }
 
     //create slide
@@ -73,7 +78,7 @@ export const AccountPresentation= () => {
             console.log(error)
         })
     };
-    
+
     if(!loadingData && !validation){
 
         return (
