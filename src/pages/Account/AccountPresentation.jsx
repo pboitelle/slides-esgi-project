@@ -4,12 +4,18 @@ import { ref, onValue, update, push, child, remove } from "firebase/database"
 import { Link, useParams } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
 import { TrixEditor } from "react-trix";
+
 import "trix/dist/trix";
 import "trix/dist/trix.css";
-
 import '../../../public/css/app.css'
 
+import Modal from '../../components/modalCollab'
+import useModal from '../../context/useModal'
+
 export const AccountPresentation= () => {
+
+    //modal
+    const { isShow, toggle } = useModal();
 
     //id présentation
     let { uuuid } = useParams();
@@ -91,12 +97,17 @@ export const AccountPresentation= () => {
                         <button className="btn btn-info ms-2">
                             <i className="fa-solid fa-play"></i>
                         </button>
+
                         <button onClick={createSlide} className="btn btn-info ms-2">
                             <i className="fa-solid fa-file-circle-plus"></i>
                         </button>
-                        <button className="btn btn-info ms-2">
+
+                        <button onClick={toggle} className="btn btn-info ms-2 modal-toggle" >
                             <i className="fa-solid fa-user-plus"></i>
                         </button>
+
+                        <Modal isShow={isShow} hide={toggle} />
+
                     </div>
                 </nav>
                 
