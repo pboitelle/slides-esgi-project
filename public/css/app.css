@@ -66,41 +66,129 @@ background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-wrapper-collab {
-position: fixed;
-top: 0;
-left: 0;
-z-index: 1050;
-width: 100%;
-height: 100%;
-overflow-x: hidden;
-overflow-y: auto;
-outline: 0;
-display: flex;
-align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+    display: flex;
+    align-items: center;
 }
 
 .modal-collab {
-z-index: 100;
-background: #fff;
-position: relative;
-margin: auto;
-border-radius: 5px;
-max-width: 500px;
-width: 80%;
-padding: 1rem;
+    z-index: 100;
+    background: #fff;
+    position: relative;
+    margin: auto;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 80%;
+    padding: 1rem;
 }
 
 .modal-header-collab {
-display: flex;
-justify-content: space-between;
-align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .modal-close-button {
-font-size: 1.4rem;
-font-weight: 700;
-color: #000;
-cursor: pointer;
-border: none;
-background: transparent;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+
+
+
+
+
+/*
+css drawer
+*/
+#my-canvas .controls{
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#my-canvas .controls button {
+    padding: 5px;
+    border-radius: 5px;
+    border: #000 solid 1px;
+    color: white;
+    background-color: rgb(56, 55, 55);
+    cursor: pointer;
+    width: 30px;
+}
+
+#my-canvas .controls input#color {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+#my-canvas .controls input#color + label {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+    border: #000 solid 1px;
+    color: white;
+    background-color: rgb(56, 55, 55);
+    cursor: pointer;
+    width: 30px;
+}
+
+#my-canvas .controls input#avatar {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+#my-canvas .controls input#avatar + label {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+    border: #000 solid 1px;
+    color: white;
+    background-color: rgb(56, 55, 55);
+    cursor: pointer;
+    width: 30px;
+}
+
+#my-canvas .controls input#avatar:focus + label,
+#my-canvas .controls input#avatar + label:hover, 
+#my-canvas .controls button:hover,
+#my-canvas .controls input#color + label:hover {
+    background-color: rgb(124, 123, 123);
+}
+
+#my-canvas .controls input {
+    color: white;
+}
+
+@media (max-width: 390px) {
+    #my-canvas #c {
+        width: 100% !important;
+        height: 183px !important;
+        border: 2px solid #000;
+        background-color: #fff;
+    }
+    
+    #my-canvas .canvas-container, .upper-canvas{
+        width: 100% !important;
+        height: 183px !important;
+    }
 }

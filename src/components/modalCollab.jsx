@@ -25,7 +25,7 @@ const modalCollab = ({ isShow, hide }) => {
       }else{
       }
     })
-}, [])
+  }, [])
 
   return isShow
     ? reactDom.createPortal(

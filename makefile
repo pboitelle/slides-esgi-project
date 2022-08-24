@@ -14,5 +14,5 @@ restart: stop start
 clean: start
 	docker-compose exec node rm -rf .npm node_modules .node_repl_history
 	
-development: start
+dev: start
 	docker-compose exec node npm run dev

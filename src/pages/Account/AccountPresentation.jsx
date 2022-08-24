@@ -3,14 +3,13 @@ import { db } from '../../../database/firebase'
 import { ref, onValue, update, push, child, remove } from "firebase/database"
 import { Link, useParams } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
-import { TrixEditor } from "react-trix";
 
-import "trix/dist/trix";
-import "trix/dist/trix.css";
 import '../../../public/css/app.css'
 
 import Modal from '../../components/modalCollab'
+import Slide from '../../components/Slide'
 import useModal from '../../context/useModal'
+
 
 export const AccountPresentation= () => {
 
@@ -61,7 +60,7 @@ export const AccountPresentation= () => {
         
         update(ref(db, `/users/${uidUser}/${uuuid}/slides/${id_slide}`), {
             id_slide: id_slide,
-            contenu: "<h1>Présentation sans titre</h1>"
+            contenu: ""
         }).then(() => {
             // data saved
         }).catch((error) => {
@@ -70,20 +69,22 @@ export const AccountPresentation= () => {
 
     }
 
-    const handleEditorReady = editor => {
+    const handleChangeSlide = (canvas, id_slide) => {
+        const uidUser = currentUser.uid
+
+        const json = JSON.stringify( canvas.target.toJSON() );
+
+        console.log(canvas)
+        
+        // update(ref(db, `/users/${uidUser}/${uuuid}/slides/${id_slide}`), {
+        //     contenu: json
+        // }).then(() => {
+        //     // data saved
+        // }).catch((error) => {
+        //     console.log(error)
+        // })
     };
 
-    const handleChangeSlide = (html, id_slide) => {
-        const uidUser = currentUser.uid
-        
-        update(ref(db, `/users/${uidUser}/${uuuid}/slides/${id_slide}`), {
-            contenu: html
-        }).then(() => {
-            // data saved
-        }).catch((error) => {
-            console.log(error)
-        })
-    };
 
     if(!loadingData && !validation){
 
@@ -112,17 +113,11 @@ export const AccountPresentation= () => {
                 </nav>
                 
 
-
                 {Object.keys(lapresentation[1]).map((key, slide) => (
 
-                    <div key={lapresentation[1][key].id_slide} className='bg-light m-b-25 m-t-5 rounded'>
+                    <div key={lapresentation[1][key].id_slide}>
 
-                            <TrixEditor id="trixEditor" className='bg-light card'
-                                placeholder="Entrer du texte.." value={lapresentation[1][key].contenu+``.replace(/(\r\n|\n|\r)/gm, "")}
-                                onChange={(e) => handleChangeSlide(e, lapresentation[1][key].id_slide)}
-                                onEditorReady={handleEditorReady}
-                                
-                            />
+                        <Slide canvasModifiedCallback={(e) => handleChangeSlide(e, lapresentation[1][key].id_slide)} />
 
                         <div className="bg-dark d-flex justify-content-end">
                             <button onClick={() => handleDeleteSlide(lapresentation[1][key].id_slide)} className="btn btn-danger mx-2 px-2"><i className="fa-solid fa-trash text-white"></i></button>
