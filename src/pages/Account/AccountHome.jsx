@@ -51,7 +51,7 @@ export const AccountHome = () => {
         
         update(ref(db, `/users/${uidUser}/${uuid}/slides/${id_slide}`), {
             id_slide: id_slide,
-            contenu: "<h1>Présentation sans titre</h1>"
+            contenu: ""
         }).then(() => {
             // data saved
         }).catch((error) => {
