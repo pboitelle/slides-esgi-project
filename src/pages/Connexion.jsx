@@ -1,4 +1,4 @@
-import React,  {useContext, useRef, useState } from "react"
+import React,  {useContext, useRef, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 
@@ -7,8 +7,18 @@ export const Connexion = () => {
     const { signIn } = useContext(UserContext);
     const { signInWithGoogle } = useContext(UserContext);
     const { signInWithFacebook } = useContext(UserContext);
+
+    const {currentUser} = useContext(UserContext)
     
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+        if(currentUser){
+            navigate("/account/home");
+        }
+
+    }, [])
 
     const [ validation, setValidation ] = useState("");
 
@@ -29,6 +39,8 @@ export const Connexion = () => {
                 inputs.current[0].value,
                 inputs.current[1].value
             )
+            localStorage.setItem("emailUser", inputs.current[0].value)
+
             formRef.current.reset();
             setValidation("");
             navigate("/account/home");

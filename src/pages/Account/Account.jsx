@@ -12,9 +12,7 @@ export const Account = () => {
 
     return (
         <>
-            <div className="container">
-                <Outlet/>
-            </div>
+            <Outlet/>
         </>
     )
 }
