@@ -4,7 +4,8 @@ import { signInWithEmailAndPassword,
  createUserWithEmailAndPassword,
 onAuthStateChanged,
 signInWithPopup} from "firebase/auth";
-import { auth, providerFacebook, providerGoogle } from "../../database/firebase";
+import { auth, providerFacebook, providerGoogle, db } from "../../database/firebase";
+import { ref, set, update } from "firebase/database"
 
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,9 @@ export const UserContextProvider = (props) => {
     const signUp = (email, pwd) => createUserWithEmailAndPassword(auth, email, pwd)
     const signIn = (email, pwd) => signInWithEmailAndPassword(auth, email, pwd)
 
+    const [currentUser, setCurrentUser] = useState();
+    const [loadingData, setLoadingData] = useState(true);
+
     const signInWithGoogle = () => {
 
         signInWithPopup(auth, providerGoogle).then((result) => {
@@ -24,10 +28,10 @@ export const UserContextProvider = (props) => {
           const emailUserGoogle = result.user.email
           const nameUserGoogle = result.user.displayName
           const imgUserGoogle = result.user.photoURL
-      
-          localStorage.setItem("emailUserGoogle", emailUserGoogle)
-          localStorage.setItem("nameUserGoogle", nameUserGoogle)
-          localStorage.setItem("imgUserGoogle", imgUserGoogle)
+
+          localStorage.setItem("emailUser", emailUserGoogle)
+          localStorage.setItem("nameUser", nameUserGoogle)
+          localStorage.setItem("imgUser", imgUserGoogle)
 
           navigate("/account/home");
       
@@ -41,13 +45,13 @@ export const UserContextProvider = (props) => {
 
         signInWithPopup(auth, providerFacebook).then((result) => {
 
-          const emailUserGoogle = result.user.email
-          const nameUserGoogle = result.user.displayName
-          const imgUserGoogle = result.user.photoURL
-      
-          localStorage.setItem("emailUserGoogle", emailUserGoogle)
-          localStorage.setItem("nameUserGoogle", nameUserGoogle)
-          localStorage.setItem("imgUserGoogle", imgUserGoogle)
+          const emailUserFb = result.user.email
+          const nameUserFb = result.user.displayName
+          const imgUserFb = result.user.photoURL
+
+          localStorage.setItem("emailUser", emailUserFb)
+          localStorage.setItem("nameUser", nameUserFb)
+          localStorage.setItem("imgUser", imgUserFb)
 
           navigate("/account/home");
       
@@ -57,15 +61,16 @@ export const UserContextProvider = (props) => {
         });
     }
 
-    const [currentUser, setCurrentUser] = useState();
-    const [loadingData, setLoadingData] = useState(true);
-
     useEffect(() => {
 
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setCurrentUser(currentUser)
             setLoadingData(false)
         })
+
+        if(currentUser){
+          navigate("/account/home");
+        }
 
         return unsubscribe;
 

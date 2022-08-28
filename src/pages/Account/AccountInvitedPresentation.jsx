@@ -7,24 +7,22 @@ import { ref, onValue, update, push, child, remove } from "firebase/database"
 
 import '../../../public/css/app.css'
 
-import ModalCollab from '../../components/modalCollab'
 import ModalSettings from '../../components/modalSettings'
 import Slide from '../../components/Slide'
 import useModal from '../../context/useModal'
 
 
-export const AccountPresentation= () => {
+export const AccountInvitedPresentation = () => {
 
     //modal
-    const [ isShowCollab, toggleCollab ] = useModal();
     const [ isShowSettings, toggleSettings ] = useModal();
 
-    //id présentation
+    //ids
     const { uuuid } = useParams();
+    const { user_id } = useParams();
 
     const [lapresentation, setPresentation] = useState([])
     const [slides, setSlides] = useState([])
-    const [collaborators, setCollaborators] = useState([])
 
     const [validation, setValidation ] = useState("");
     const [loadingData, setLoadingData] = useState(true);
@@ -34,10 +32,9 @@ export const AccountPresentation= () => {
 
     //read slides
     useEffect(() => {
-        onValue(ref(db, `/users/${currentUser.uid}/presentations/${uuuid}/`), (snapshot) => {
+        onValue(ref(db, `/users/${user_id}/presentations/${uuuid}/`), (snapshot) => {
             setPresentation([])
             setSlides([])
-            setCollaborators([])
             const data = snapshot.val()
             setLengthSlide(Object.keys(data.slides).length)
             if(data !== null){
@@ -47,11 +44,6 @@ export const AccountPresentation= () => {
                 if(data.slides){
                     Object.values(data.slides).map((slide) => {
                         setSlides((oldArray) => [...oldArray, slide])
-                    })
-                }
-                if(data.collaborators){
-                    Object.values(data.collaborators).map((collab) => {
-                        setCollaborators((oldArray) => [...oldArray, collab.user_id])
                     })
                 }
                 setValidation("")
@@ -66,17 +58,15 @@ export const AccountPresentation= () => {
     //delete slide
     const handleDeleteSlide = (slide) => {
         if(lengthSlide > 1){
-            remove(ref(db, `/users/${currentUser.uid}/presentations/${uuuid}/slides/${slide}`))
+            remove(ref(db, `/users/${user_id}/presentations/${uuuid}/slides/${slide}`))
         }
     }
 
     //create slide
     const createSlide = () => {
-
-        const uidUser = currentUser.uid
-        const id_slide = push(child(ref(db), `/users/${uidUser}/presentations/${uuuid}`)).key;
+        const id_slide = push(child(ref(db), `/users/${user_id}/presentations/${uuuid}`)).key;
         
-        update(ref(db, `/users/${uidUser}/presentations/${uuuid}/slides/${id_slide}`), {
+        update(ref(db, `/users/${user_id}/presentations/${uuuid}/slides/${id_slide}`), {
             id_slide: id_slide,
             contenu: ""
         }).then(() => {
@@ -88,11 +78,10 @@ export const AccountPresentation= () => {
     }
 
     const handleChangeSlide = (canvas, id_slide) => {
-        const uidUser = currentUser.uid
 
         const json = JSON.stringify( canvas.target.canvas.toJSON() );
         
-        update(ref(db, `/users/${uidUser}/presentations/${uuuid}/slides/${id_slide}`), {
+        update(ref(db, `/users/${user_id}/presentations/${uuuid}/slides/${id_slide}`), {
             contenu: json
         }).then(() => {
             // data saved
@@ -119,15 +108,9 @@ export const AccountPresentation= () => {
                             <i className="fa-solid fa-file-circle-plus"></i>
                         </button>
 
-                        <button onClick={toggleCollab} className="btn btn-info ms-2 modal-toggle" >
-                            <i className="fa-solid fa-user-plus"></i>
-                        </button>
-
                         <button onClick={toggleSettings} className="btn btn-info ms-2 modal-toggle" >
                             <i className="fa-solid fa-ellipsis-vertical"></i>
                         </button>
-
-                        <ModalCollab isShow={isShowCollab} hide={toggleCollab} idPresentation={uuuid} collaborators={collaborators} setCollaborators={setCollaborators}/>
 
                         <ModalSettings isShow={isShowSettings} hide={toggleSettings} namePresentation={lapresentation.name} />
 
